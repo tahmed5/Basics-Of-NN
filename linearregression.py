@@ -1,4 +1,9 @@
+import numpy
+import time
+
 def get_coordinates():
+    global x_coord
+    global y_coord
     x_coord = []
     y_coord = []
     entering_coordinates = True
@@ -7,6 +12,9 @@ def get_coordinates():
     while entering_coordinates == True:
         data = input()
         if data == 'done':
+            if len(x_coord) == 0 or len(y_coord) == 0:
+                print('no data inputed')
+                exit()
             entering_coordinates = False
             break          
         data = data.split(',')
@@ -20,19 +28,37 @@ def get_coordinates():
             data[0] = int(data[0])
             data[1] = int(data[1])
         except:
-            print('Strings Detected')
+            print('String Detected')
             continue 
         x_coord.append(data[0])
         y_coord.append(data[1])
-        print(x_coord)
-        print(y_coord)
         
-      
+def partial_derivative_m(m,c):
+    sum_gradient_m = 0
+    for x in range(len(x_coord)):
+        sum_gradient_m +=  (2 *  x_coord[x]) * (m * x_coord[x] + c - y_coord[x])
+    return 1/len(x_coord) * sum_gradient_m
+        
+def partial_derivative_c(m,c):
+    sum_gradient_c = 0
+    for x in range(len(x_coord)):
+        sum_gradient_c +=  2 * (m * x_coord[x] + c - y_coord[x])
+    return 1/len(x_coord) * sum_gradient_c
+               
     
 
 def main():
     get_coordinates()
-    
+    c = 1
+    m = 1
+    while True:
+        m = m - 0.001 * partial_derivative_m(m,c)
+        c = c - 0.001 * partial_derivative_c(m,c)
+        print('M:', m)
+        print('C:', c)
+        
+        
+            
 
 
 main()
