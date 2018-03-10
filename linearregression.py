@@ -44,18 +44,26 @@ def partial_derivative_c(m,c):
     for x in range(len(x_coord)):
         sum_gradient_c +=  2 * (m * x_coord[x] + c - y_coord[x])
     return 1/len(x_coord) * sum_gradient_c
-               
-    
+                   
 
 def main():
     get_coordinates()
     c = 1
     m = 1
-    while True:
-        m = m - 0.01 * partial_derivative_m(m,c)
-        c = c - 0.01 * partial_derivative_c(m,c)
-        print('M:', m)
-        print('C:', c)
+    c_finished = False
+    m_finished = False
+    while c_finished != True and m_finished != True:
+        m_u = m
+        c_u = c
+        m = m - 0.0001 * partial_derivative_m(m,c)
+        c = c - 0.0001 * partial_derivative_c(m,c)       
+        if round(m_u,10) == round(m,10):
+            m_finished = True
+        if round(c_u,10) == round(c,10):
+            c_finished = True
+    
+    print('M:', round(m,2))
+    print('C:', round(c,2))
         
         
             
