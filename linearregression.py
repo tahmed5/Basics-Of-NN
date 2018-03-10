@@ -12,8 +12,8 @@ def get_coordinates():
     while entering_coordinates == True:
         data = input()
         if data == 'done':
-            if len(x_coord) == 0 or len(y_coord) == 0:
-                print('no data inputed')
+            if len(x_coord) < 2 or len(y_coord) < 2:
+                print('not enough data inputted')
                 exit()
             entering_coordinates = False
             break          
@@ -52,8 +52,8 @@ def main():
     c = 1
     m = 1
     while True:
-        m = m - 0.001 * partial_derivative_m(m,c)
-        c = c - 0.001 * partial_derivative_c(m,c)
+        m = m - 0.01 * partial_derivative_m(m,c)
+        c = c - 0.01 * partial_derivative_c(m,c)
         print('M:', m)
         print('C:', c)
         
